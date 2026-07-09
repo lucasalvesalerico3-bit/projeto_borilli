@@ -24,7 +24,7 @@ def criar_tabelas():
     mes TEXT,
     meta REAL,
     realizado  REAL DEFAULT 0, 
-    FOREIGN KEY (funcionario_id)
+    FOREIGN KEY (funcionarios_id)
     REFERENCES funcionarios(id)
     )
     """)
@@ -38,7 +38,9 @@ def cadastrar_funcionario(nome, cargo):
         (nome, cargo)
     )
 
-def listar_funcionários():
+    conn.commit()
+
+def listar_funcionarios():
     conn = conectar()
     cursor = conn.cursor()
 
