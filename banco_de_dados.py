@@ -16,6 +16,7 @@ def criar_tabelas():
             cargo TEXT
         )
     """)
+    conn.commit()
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS metas ( 
@@ -24,11 +25,12 @@ def criar_tabelas():
     mes TEXT,
     meta REAL,
     realizado  REAL DEFAULT 0, 
-    FOREIGN KEY (funcionarios_id)
+    FOREIGN KEY (funcionario_id)
     REFERENCES funcionarios(id)
     )
     """)
-
+    conn.commit()
+    conn.close()
 def cadastrar_funcionario(nome, cargo):
     conn = conectar()
     cursor = conn.cursor()
@@ -39,6 +41,7 @@ def cadastrar_funcionario(nome, cargo):
     )
 
     conn.commit()
+    conn.close()
 
 def listar_funcionarios():
     conn = conectar()
@@ -51,5 +54,15 @@ def listar_funcionarios():
     for funcionarios in funcionarios:
         print(funcionarios)
 
+def excluir_funcionario(funcionario_id):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "DELETE FROM funcionarios WHERE id = ?",
+        (funcionario_id,)
+    )
+
     conn.commit()
     conn.close()
+
