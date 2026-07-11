@@ -62,7 +62,18 @@ def excluir_funcionario(funcionario_id):
         "DELETE FROM funcionarios WHERE id = ?",
         (funcionario_id,)
     )
-
     conn.commit()
     conn.close()
+
+def atualizar_funcionario(nome, cargo, funcionario_id):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "UPDATE funcionarios SET nome = ?, cargo = ? WHERE id = ?",
+        (nome, cargo, funcionario_id)
+    )
+    conn.commit()
+    conn.close()
+
 

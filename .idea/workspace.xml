@@ -91,11 +91,28 @@
       <option name="project" value="LOCAL" />
       <updated>1783476116107</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Desenvolvimento do Projeto de cadastro de metas.">
+      <option name="closed" value="true" />
+      <created>1783561345055</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1783561345056</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Desenvolvimento do Projeto de cadastro de metas.">
+      <option name="closed" value="true" />
+      <created>1783802425199</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1783802425199</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Desenvolvimento do Projeto de cadastro de metas." />
     <option name="LAST_COMMIT_MESSAGE" value="Desenvolvimento do Projeto de cadastro de metas." />
+    <option name="LAST_CHUNK_COMMIT_MESSAGE" value="Desenvolvimento do Projeto de cadastro de metas." />
   </component>
 </project>
