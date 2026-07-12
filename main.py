@@ -4,6 +4,9 @@ from banco_de_dados import (
     listar_funcionarios,
     excluir_funcionario,
     atualizar_funcionario,
+    cadastrar_metas,
+    listar_metas,
+    atualizar_metas,
 )
 
 criar_tabelas()
@@ -14,7 +17,12 @@ while True:
     print("2 - Listar Funcionários: ")
     print("3 - Excluir Funcionários: ")
     print("4 - Atualizar Funcionários: ")
+    print("5 - Cadastrar Metas: ")
+    print("6 - Listar Metas: ")
+    print("7 - Excluir Metas: ")
+    print("8 - Atualizar Metas: ")
     print("0 - Encerrar o Sistema: ")
+
 
     opcao = input("Escolha uma opção: ")
 
@@ -42,6 +50,21 @@ while True:
         cargo = input("Digite seu novo cargo: ")
         funcionario_id = int(input(" Digite a ID a ser alterada: "))
         atualizar_funcionario(nome, cargo, funcionario_id)
+
+    elif opcao == "5":
+        funcionario_id = input("Digite a ID do Funcionário: ")
+        data = input("Digite a data de hoje: ")
+        meta = int(input("Digite a meta para o dia de hoje: "))
+        cadastrar_metas(funcionario_id, data, meta)
+
+    elif opcao == "6":
+
+        listar_metas()
+
+    elif opcao == "7":
+
+        funcionario_id = input("Digite a ID do funcionário que deseja excluir a meta: ")
+
 
     elif opcao == "0":
         print("Encerrando o Sistema.")

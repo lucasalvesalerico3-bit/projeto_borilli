@@ -22,7 +22,7 @@ def criar_tabelas():
     CREATE TABLE IF NOT EXISTS metas ( 
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     funcionario_id INTEGER, 
-    mes TEXT,
+    data TEXT,
     meta REAL,
     realizado  REAL DEFAULT 0, 
     FOREIGN KEY (funcionario_id)
@@ -76,4 +76,45 @@ def atualizar_funcionario(nome, cargo, funcionario_id):
     conn.commit()
     conn.close()
 
+def cadastrar_metas(funcionario_id, data, meta):
+    conn = conectar()
+    cursor = conn.cursor()
 
+    cursor.execute(
+        "INSERT INTO metas (funcionario_id, data, meta) VALUES (?, ?, ?)",
+        (funcionario_id, data, meta)
+    )
+    conn.commit()
+    conn.close()
+
+def listar_metas():
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM metas")
+    meta = cursor.fetchall()
+
+    for meta in meta:
+        print(meta)
+
+def excluir_metas(funcionario_id):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "DELETE FROM metas WHERE funcionario_id = ?",
+    )
+    conn.commit()
+    conn.close()
+
+def atualizar_metas(funcionario_id, data, meta):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "UPDATE metas SET funcionario_id = ?, data = ? WHERE id = ?",
+        (funcionario_id, data, meta)
+        )
+
+    conn.commit()
+    conn.close()
