@@ -103,18 +103,23 @@ def excluir_metas(funcionario_id):
 
     cursor.execute(
         "DELETE FROM metas WHERE funcionario_id = ?",
+        (funcionario_id,)
     )
     conn.commit()
     conn.close()
 
-def atualizar_metas(funcionario_id, data, meta):
+def atualizar_metas(meta_id, funcionario_id, data, meta):
     conn = conectar()
     cursor = conn.cursor()
 
     cursor.execute(
-        "UPDATE metas SET funcionario_id = ?, data = ? WHERE id = ?",
-        (funcionario_id, data, meta)
-        )
+        """
+        UPDATE metas
+        SET funcionario_id = ?, data = ?, meta = ?
+        WHERE id = ?
+        """,
+        (funcionario_id, data, meta, meta_id)
+    )
 
     conn.commit()
     conn.close()

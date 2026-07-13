@@ -6,6 +6,7 @@ from banco_de_dados import (
     atualizar_funcionario,
     cadastrar_metas,
     listar_metas,
+    excluir_metas,
     atualizar_metas,
 )
 
@@ -63,8 +64,21 @@ while True:
 
     elif opcao == "7":
 
-        funcionario_id = input("Digite a ID do funcionário que deseja excluir a meta: ")
+        funcionario_id = int(input("Digite a ID do funcionário que deseja excluir a meta: "))
+        excluir_metas(funcionario_id)
 
+
+    elif opcao == "8":
+
+        listar_metas()
+
+        meta_id = int(input("Digite a ID da meta que deseja alterar: "))
+        funcionario_id = int(input("Digite a ID do funcionário: "))
+        data = input("Digite a nova data (AAAA-MM-DD): ")
+        meta = float(input("Digite a nova meta: "))
+        atualizar_metas(meta_id, funcionario_id, data, meta)
+
+        print("Meta atualizada com sucesso!")
 
     elif opcao == "0":
         print("Encerrando o Sistema.")
