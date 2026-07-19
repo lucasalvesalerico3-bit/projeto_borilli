@@ -31,6 +31,7 @@ def criar_tabelas():
     """)
     conn.commit()
     conn.close()
+
 def cadastrar_funcionario(nome, cargo):
     conn = conectar()
     cursor = conn.cursor()
@@ -91,11 +92,23 @@ def listar_metas():
     conn = conectar()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM metas")
-    meta = cursor.fetchall()
+    cursor.execute("""
+    SELECT 
+        metas.id,
+        funcionarios.nome,
+        metas.data,
+        metas.meta,
+        metas.realizado
+    FROM metas
+    JOIN funcionarios
+    ON metas.funcionario_id = funcionarios.id"""
+    )
+    resultado = cursor.fetchall()
 
-    for meta in meta:
-        print(meta)
+    for linha in resultado:
+        print(linha)
+
+    conn.close()
 
 def excluir_metas(funcionario_id):
     conn = conectar()
@@ -119,6 +132,21 @@ def atualizar_metas(meta_id, funcionario_id, data, meta):
         WHERE id = ?
         """,
         (funcionario_id, data, meta, meta_id)
+    )
+
+    conn.commit()
+    conn.close()
+
+def apontar_realizado(meta_id, realizado):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    UPDATE metas
+    SET realizado = ?
+    WHERE id = ?
+    """,
+        (realizado, meta_id)
     )
 
     conn.commit()

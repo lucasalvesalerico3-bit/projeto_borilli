@@ -8,13 +8,14 @@ from banco_de_dados import (
     listar_metas,
     excluir_metas,
     atualizar_metas,
+    apontar_realizado,
 )
 
 criar_tabelas()
 
 while True:
     print("\n==========SISTEMA DE METAS==========")
-    print("1- Castrar Funcionários: ")
+    print("1- Cadastrar Funcionários: ")
     print("2 - Listar Funcionários: ")
     print("3 - Excluir Funcionários: ")
     print("4 - Atualizar Funcionários: ")
@@ -22,6 +23,7 @@ while True:
     print("6 - Listar Metas: ")
     print("7 - Excluir Metas: ")
     print("8 - Atualizar Metas: ")
+    print("9 - Apontar quantidade realizada: ")
     print("0 - Encerrar o Sistema: ")
 
 
@@ -52,11 +54,15 @@ while True:
         funcionario_id = int(input(" Digite a ID a ser alterada: "))
         atualizar_funcionario(nome, cargo, funcionario_id)
 
+        print("Funcionário Atualizado com sucesso!")
+
     elif opcao == "5":
         funcionario_id = input("Digite a ID do Funcionário: ")
         data = input("Digite a data de hoje: ")
         meta = int(input("Digite a meta para o dia de hoje: "))
         cadastrar_metas(funcionario_id, data, meta)
+
+        print("Meta Cadastrada com sucesso!")
 
     elif opcao == "6":
 
@@ -67,6 +73,7 @@ while True:
         funcionario_id = int(input("Digite a ID do funcionário que deseja excluir a meta: "))
         excluir_metas(funcionario_id)
 
+        print("Meta Excluida com sucesso!")
 
     elif opcao == "8":
 
@@ -79,6 +86,17 @@ while True:
         atualizar_metas(meta_id, funcionario_id, data, meta)
 
         print("Meta atualizada com sucesso!")
+
+    elif opcao == "9":
+
+       listar_metas()
+
+       meta_id = int(input("Digite a ID da meta que deseja apontar o realizado: "))
+       realizado = int(input("Digite a quantidade realizada: "))
+
+       apontar_realizado(meta_id, realizado)
+
+       print("Quantidade realizada cadastrada com sucesso!")
 
     elif opcao == "0":
         print("Encerrando o Sistema.")
