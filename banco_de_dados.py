@@ -16,7 +16,6 @@ def criar_tabelas():
             cargo TEXT
         )
     """)
-    conn.commit()
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS metas ( 
@@ -103,10 +102,26 @@ def listar_metas():
     JOIN funcionarios
     ON metas.funcionario_id = funcionarios.id"""
     )
+
     resultado = cursor.fetchall()
 
     for linha in resultado:
-        print(linha)
+
+        meta = linha[3]
+        realizado = linha[4]
+
+        if meta > 0:
+            porcentagem = (realizado / meta) * 100
+        else:
+            porcentagem = 0
+
+        print(f"ID: {linha[0]}")
+        print(f"Funcionário: {linha[1]}")
+        print(f"Data: {linha[2]}")
+        print(f"Meta: {meta}")
+        print(f"Realizado: {realizado}")
+        print(f"Porcentagem Obtida: {porcentagem:.2f}%")
+        print("-" * 40)
 
     conn.close()
 
