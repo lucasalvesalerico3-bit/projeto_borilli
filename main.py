@@ -9,6 +9,8 @@ from banco_de_dados import (
     excluir_metas,
     atualizar_metas,
     apontar_realizado,
+    somar_meta_diaria,
+    somar_meta_mes
 )
 
 criar_tabelas()
@@ -24,6 +26,8 @@ while True:
     print("7 - Excluir Metas: ")
     print("8 - Atualizar Metas: ")
     print("9 - Apontar quantidade realizada: ")
+    print("10 - Mostrar soma das metas diárias: ")
+    print("11 - Mostar a soma das metas mensais: ")
     print("0 - Encerrar o Sistema: ")
 
 
@@ -81,7 +85,7 @@ while True:
 
         meta_id = int(input("Digite a ID da meta que deseja alterar: "))
         funcionario_id = int(input("Digite a ID do funcionário: "))
-        data = input("Digite a nova data (AAAA-MM-DD): ")
+        data = input("Digite a nova data (DD-MM-AAAA): ")
         meta = float(input("Digite a nova meta: "))
         atualizar_metas(meta_id, funcionario_id, data, meta)
 
@@ -97,6 +101,22 @@ while True:
        apontar_realizado(meta_id, realizado)
 
        print("Quantidade realizada cadastrada com sucesso!")
+
+    elif opcao == "10":
+
+        input("Digite a Data (DD-MM-AAAA): ")
+        total = somar_meta_diaria(data)
+
+        print(f"\n Quantidade total diária: {total}")
+
+    elif opcao == "11":
+
+        mes = input("Digite o mês para obter o relatório de metas: ")
+        ano = input("Digite o ano para obter o relatório de metas: ")
+
+        meta_total = somar_meta_mes(mes, ano)
+
+        print(f"Meta total do mês: {meta_total}")
 
     elif opcao == "0":
         print("Encerrando o Sistema.")

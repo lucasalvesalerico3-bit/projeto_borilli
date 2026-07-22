@@ -14,7 +14,7 @@ frame_menu = ctk.CTkFrame(janela)
 # posicionar o frame
 frame_menu = ctk.CTkFrame(
     janela,
-    width=250,
+    width=270,
     height=800
 )
 

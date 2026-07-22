@@ -166,3 +166,43 @@ def apontar_realizado(meta_id, realizado):
 
     conn.commit()
     conn.close()
+
+def somar_meta_diaria(data):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT SUM(meta)
+    FROM metas
+    WHERE data = ?
+    """,
+        (data,))
+
+    resultado = cursor.fetchone()
+
+    conn.close()
+
+    if resultado [0] is None:
+        return 0
+
+    return resultado[0]
+
+def somar_meta_mes(mes, ano):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT SUM(meta)
+    FROM metas
+    WHERE strftime('%m', data) = ?
+    AND strftime('%y', ano) = ?
+    """,(mes, ano))
+
+    resultado = cursor.fetchone()
+
+    conn.close()
+
+    if resultado[0] is None:
+        return 0
+
+    return resultado[0]
