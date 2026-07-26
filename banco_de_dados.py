@@ -36,9 +36,8 @@ def cadastrar_funcionario(nome, cargo):
     cursor = conn.cursor()
 
     cursor.execute(
-        "INSERT INTO funcionarios (nome, cargo) VALUES (?, ?)",
-        (nome, cargo)
-    )
+    "INSERT INTO funcionarios (nome, cargo) VALUES (?, ?)",
+    (nome, cargo))
 
     conn.commit()
     conn.close()
@@ -51,17 +50,17 @@ def listar_funcionarios():
 
     funcionarios = cursor.fetchall()
 
-    for funcionarios in funcionarios:
-        print(funcionarios)
+    conn.close()
 
-def excluir_funcionario(funcionario_id):
+    return funcionarios
+
+def excluir_funcionario(meta_id):
     conn = conectar()
     cursor = conn.cursor()
 
     cursor.execute(
-        "DELETE FROM funcionarios WHERE id = ?",
-        (funcionario_id,)
-    )
+    "DELETE FROM funcionarios WHERE id = ?",
+    (meta_id,))
     conn.commit()
     conn.close()
 
@@ -70,9 +69,8 @@ def atualizar_funcionario(nome, cargo, funcionario_id):
     cursor = conn.cursor()
 
     cursor.execute(
-        "UPDATE funcionarios SET nome = ?, cargo = ? WHERE id = ?",
-        (nome, cargo, funcionario_id)
-    )
+    "UPDATE funcionarios SET nome = ?, cargo = ? WHERE id = ?",
+    (nome, cargo, funcionario_id))
     conn.commit()
     conn.close()
 
@@ -81,9 +79,8 @@ def cadastrar_metas(funcionario_id, data, meta):
     cursor = conn.cursor()
 
     cursor.execute(
-        "INSERT INTO metas (funcionario_id, data, meta) VALUES (?, ?, ?)",
-        (funcionario_id, data, meta)
-    )
+    "INSERT INTO metas (funcionario_id, data, meta) VALUES (?, ?, ?)",
+    (funcionario_id, data, meta))
     conn.commit()
     conn.close()
 
@@ -100,8 +97,7 @@ def listar_metas():
         metas.realizado
     FROM metas
     JOIN funcionarios
-    ON metas.funcionario_id = funcionarios.id"""
-    )
+    ON metas.funcionario_id = funcionarios.id""")
 
     resultado = cursor.fetchall()
 
@@ -130,9 +126,9 @@ def excluir_metas(funcionario_id):
     cursor = conn.cursor()
 
     cursor.execute(
-        "DELETE FROM metas WHERE funcionario_id = ?",
-        (funcionario_id,)
-    )
+    "DELETE FROM metas WHERE funcionario_id = ?",
+    (funcionario_id,))
+
     conn.commit()
     conn.close()
 
@@ -146,8 +142,7 @@ def atualizar_metas(meta_id, funcionario_id, data, meta):
         SET funcionario_id = ?, data = ?, meta = ?
         WHERE id = ?
         """,
-        (funcionario_id, data, meta, meta_id)
-    )
+    (funcionario_id, data, meta, meta_id))
 
     conn.commit()
     conn.close()
@@ -161,8 +156,7 @@ def apontar_realizado(meta_id, realizado):
     SET realizado = ?
     WHERE id = ?
     """,
-        (realizado, meta_id)
-    )
+    (realizado, meta_id))
 
     conn.commit()
     conn.close()
@@ -176,7 +170,7 @@ def somar_meta_diaria(data):
     FROM metas
     WHERE data = ?
     """,
-        (data,))
+    (data,))
 
     resultado = cursor.fetchone()
 
@@ -187,7 +181,7 @@ def somar_meta_diaria(data):
 
     return resultado[0]
 
-def somar_meta_mes(mes, ano):
+def somar_meta_mes(mes,ano):
     conn = conectar()
     cursor = conn.cursor()
 
@@ -195,8 +189,9 @@ def somar_meta_mes(mes, ano):
     SELECT SUM(meta)
     FROM metas
     WHERE strftime('%m', data) = ?
-    AND strftime('%y', ano) = ?
-    """,(mes, ano))
+    AND strftime('%Y', data) = ?
+    """,
+    (mes, ano))
 
     resultado = cursor.fetchone()
 
@@ -206,3 +201,125 @@ def somar_meta_mes(mes, ano):
         return 0
 
     return resultado[0]
+
+def somar_meta_ano(ano):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT SUM(meta)
+    FROM metas
+    WHERE strftime('%Y', data) = ?""",
+    (ano,))
+
+    resultado = cursor.fetchone()
+
+    conn.close()
+
+    if resultado[0] is None:
+        return 0
+
+    return resultado[0]
+
+def somar_realizado_diario(data):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT SUM(realizado)
+    FROM metas
+    WHERE data = ?
+    """,
+    (data,))
+
+    resultado = cursor.fetchone()
+
+    conn.close()
+
+    if resultado[0] is None:
+        return 0
+
+    return resultado[0]
+
+def somar_realizado_mes(mes, ano):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT SUM(realizado)
+    FROM metas
+    WHERE strftime('%m', data) = ?
+    AND strftime('%Y', data) = ?
+    """,
+    (mes, ano))
+
+    resultado = cursor.fetchone()
+
+    conn.close()
+
+    if resultado[0] is None:
+        return 0
+
+    return resultado[0]
+
+def somar_realizado_ano(ano):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT SUM(realizado)
+    FROM metas
+    WHERE strftime('%Y', data) = ?
+    """,
+    (ano,))
+
+    resultado = cursor.fetchone()
+
+    conn.close()
+
+    if resultado[0] is None:
+        return 0
+
+    return resultado[0]
+
+def calcular_porcentagem(realizado, meta):
+    if meta <= 0:
+        return 0
+
+    return (realizado / meta) * 100
+
+def relatorio_diario(data):
+    meta_total = somar_meta_diaria(data)
+    realizado_total = somar_realizado_diario(data)
+    porcentagem = calcular_porcentagem(realizado_total, meta_total)
+
+    return {
+        "meta": meta_total,
+        "realizado": realizado_total,
+        "porcentagem": porcentagem,
+        "bateu_meta": realizado_total >= meta_total and meta_total > 0
+    }
+
+def relatorio_mensal(mes, ano):
+    meta_total = somar_meta_mes(mes, ano)
+    realizado_total = somar_realizado_mes(mes, ano)
+    porcentagem = calcular_porcentagem(realizado_total, meta_total)
+
+    return {
+        "meta": meta_total,
+        "realizado": realizado_total,
+        "porcentagem": porcentagem,
+        "bateu_meta": realizado_total >= meta_total and meta_total > 0
+    }
+
+def relatorio_anual(ano):
+    meta_total = somar_meta_ano(ano)
+    realizado_total = somar_realizado_ano(ano)
+    porcentagem = calcular_porcentagem(realizado_total, meta_total)
+
+    return {
+        "meta": meta_total,
+        "realizado": realizado_total,
+        "porcentagem": porcentagem,
+        "bateu_meta": realizado_total >= meta_total and meta_total > 0
+    }

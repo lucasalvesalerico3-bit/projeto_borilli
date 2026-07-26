@@ -9,8 +9,9 @@ from banco_de_dados import (
     excluir_metas,
     atualizar_metas,
     apontar_realizado,
-    somar_meta_diaria,
-    somar_meta_mes
+    relatorio_diario,
+    relatorio_mensal,
+    relatorio_anual
 )
 
 criar_tabelas()
@@ -27,7 +28,8 @@ while True:
     print("8 - Atualizar Metas: ")
     print("9 - Apontar quantidade realizada: ")
     print("10 - Mostrar soma das metas diárias: ")
-    print("11 - Mostar a soma das metas mensais: ")
+    print("11 - Mostrar relatório mensal: ")
+    print("12 - Mostrar relatório anual: ")
     print("0 - Encerrar o Sistema: ")
 
 
@@ -62,7 +64,7 @@ while True:
 
     elif opcao == "5":
         funcionario_id = input("Digite a ID do Funcionário: ")
-        data = input("Digite a data de hoje: ")
+        data = input("Digite a data de hoje (AAAA-MM-DD): ")
         meta = int(input("Digite a meta para o dia de hoje: "))
         cadastrar_metas(funcionario_id, data, meta)
 
@@ -75,7 +77,7 @@ while True:
     elif opcao == "7":
 
         funcionario_id = int(input("Digite a ID do funcionário que deseja excluir a meta: "))
-        excluir_metas(funcionario_id)
+        excluir_metas(meta_id)
 
         print("Meta Excluida com sucesso!")
 
@@ -85,7 +87,7 @@ while True:
 
         meta_id = int(input("Digite a ID da meta que deseja alterar: "))
         funcionario_id = int(input("Digite a ID do funcionário: "))
-        data = input("Digite a nova data (DD-MM-AAAA): ")
+        data = input("Digite a nova data (AAAA-MM-DD): ")
         meta = float(input("Digite a nova meta: "))
         atualizar_metas(meta_id, funcionario_id, data, meta)
 
@@ -104,19 +106,39 @@ while True:
 
     elif opcao == "10":
 
-        input("Digite a Data (DD-MM-AAAA): ")
-        total = somar_meta_diaria(data)
+        data = input("Digite a Data (AAAA-MM-DD): ")
+        relatorio = relatorio_diario(data)
+        status = "Meta batida" if relatorio["bateu_meta"] else "Meta não batida"
 
-        print(f"\n Quantidade total diária: {total}")
+        print(f"Meta total do dia: {relatorio['meta']}")
+        print(f"Realizado total do dia: {relatorio['realizado']}")
+        print(f"Porcentagem produzida: {relatorio['porcentagem']:.2f}%")
+        print(f"Status: {status}")
 
     elif opcao == "11":
 
         mes = input("Digite o mês para obter o relatório de metas: ")
         ano = input("Digite o ano para obter o relatório de metas: ")
 
-        meta_total = somar_meta_mes(mes, ano)
+        relatorio = relatorio_mensal(mes, ano)
+        status = "Meta batida" if relatorio["bateu_meta"] else "Meta não batida"
 
-        print(f"Meta total do mês: {meta_total}")
+        print(f"Meta total do mês: {relatorio['meta']}")
+        print(f"Realizado total do mês: {relatorio['realizado']}")
+        print(f"Porcentagem produzida: {relatorio['porcentagem']:.2f}%")
+        print(f"Status: {status}")
+
+    elif opcao == "12":
+
+        ano = input("Digite o ano para obter o relatório de metas: ")
+
+        relatorio = relatorio_anual(ano)
+        status = "Meta batida" if relatorio["bateu_meta"] else "Meta não batida"
+
+        print(f"Meta total do ano: {relatorio['meta']}")
+        print(f"Realizado total do ano: {relatorio['realizado']}")
+        print(f"Porcentagem produzida: {relatorio['porcentagem']:.2f}%")
+        print(f"Status: {status}")
 
     elif opcao == "0":
         print("Encerrando o Sistema.")
