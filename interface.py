@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from PIL import Image
 from telas.tela_funcionarios import abrir_tela_funcionarios
+from telas.tela_metas import abrir_tela_metas
 
 ctk.set_appearance_mode("light")
 
@@ -117,7 +118,8 @@ botao_metas = ctk.CTkButton(
     frame_menu,
     text="  Metas",
     image=icone_metas,
-    **estilo_botao_menu
+    **estilo_botao_menu,
+    command=lambda: abrir_tela_metas(frame_principal)
 )
 botao_metas.place(x=15, y=220)
 

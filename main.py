@@ -45,7 +45,16 @@ while True:
 
     elif opcao == "2":
 
-        listar_funcionarios()
+        funcionarios = listar_funcionarios()
+
+        if not funcionarios:
+            print("Nenhum funcionário cadastrado.")
+        else:
+            for funcionario in funcionarios:
+                print(f"ID: {funcionario[0]}")
+                print(f"Funcionário: {funcionario[1]}")
+                print(f"Cargo: {funcionario[2]}")
+                print("-" * 40)
 
     elif opcao == "3":
 
