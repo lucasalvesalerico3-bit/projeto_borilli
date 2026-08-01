@@ -4,7 +4,7 @@ from telas.tela_funcionarios import abrir_tela_funcionarios
 from telas.tela_metas import abrir_tela_metas
 
 ctk.set_widget_scaling(2.0)
-ctk.set_window_scaling(2.0)
+ctk.set_window_scaling(2.0) #
 
 ctk.set_appearance_mode("light")
 
