@@ -3,6 +3,9 @@ from PIL import Image
 from telas.tela_funcionarios import abrir_tela_funcionarios
 from telas.tela_metas import abrir_tela_metas
 
+ctk.set_widget_scaling(2.0)
+ctk.set_window_scaling(2.0)
+
 ctk.set_appearance_mode("light")
 
 # criar a janela
@@ -12,13 +15,20 @@ janela = ctk.CTk()
 janela.title("Sistema de Cadastro de Metas")
 janela.geometry("900x600")
 
+# reservar uma coluna fixa para o menu e outra para o conteudo principal
+janela.grid_rowconfigure(0, weight=1)
+janela.grid_columnconfigure(0, weight=0, minsize=300)
+janela.grid_columnconfigure(1, weight=1)
+
 
 # criar a side bar
 frame_menu = ctk.CTkFrame(
     janela,
-    width=300
+    width=300,
+    corner_radius=0
 )
-frame_menu.place(x=0, y=0, relheight=1)
+frame_menu.grid(row=0, column=0, sticky="nsew")
+frame_menu.grid_propagate(False)
 
 # criar frame princiapl
 frame_principal = ctk.CTkFrame(
@@ -27,12 +37,7 @@ frame_principal = ctk.CTkFrame(
     corner_radius=0
 )
 
-frame_principal.place(
-    x=200,
-    y=0,
-    relwidth=1,
-    relheight=1
-)
+frame_principal.grid(row=0, column=1, sticky="nsew")
 
 # criando titulo do menu
 titulo_menu = ctk.CTkLabel(
