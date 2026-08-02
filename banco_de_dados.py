@@ -93,8 +93,11 @@ def cadastrar_metas(funcionario_id, data, meta):
     cursor.execute(
     "INSERT INTO metas (funcionario_id, data, meta) VALUES (?, ?, ?)",
     (funcionario_id, data, meta))
+    meta_id = cursor.lastrowid
     conn.commit()
     conn.close()
+
+    return meta_id
 
 def listar_metas():
     conn = conectar()
@@ -133,13 +136,15 @@ def listar_metas():
 
     conn.close()
 
-def excluir_metas(funcionario_id):
+    return resultado
+
+def excluir_metas(meta_id):
     conn = conectar()
     cursor = conn.cursor()
 
     cursor.execute(
-    "DELETE FROM metas WHERE funcionario_id = ?",
-    (funcionario_id,))
+    "DELETE FROM metas WHERE id = ?",
+    (meta_id,))
 
     conn.commit()
     conn.close()

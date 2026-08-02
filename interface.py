@@ -1,12 +1,32 @@
+import json
+from pathlib import Path
+
 import customtkinter as ctk
 from PIL import Image
+from telas.tela_configuracoes import abrir_tela_configuracoes
+from telas.tela_dashboard import abrir_tela_dashboard
 from telas.tela_funcionarios import abrir_tela_funcionarios
 from telas.tela_metas import abrir_tela_metas
+from telas.tela_relatorios import abrir_tela_relatorios
 
 ctk.set_widget_scaling(2.0)
 ctk.set_window_scaling(2.0)
 
-ctk.set_appearance_mode("light")
+caminho_configuracoes = Path(__file__).resolve().parent / "configuracoes.json"
+tema_salvo = "☀ Claro"
+configuracoes_salvas = {}
+try:
+    with open(caminho_configuracoes, "r", encoding="utf-8") as arquivo:
+        configuracoes_salvas = json.load(arquivo)
+        tema_salvo = configuracoes_salvas.get("tema", tema_salvo)
+except (OSError, json.JSONDecodeError, AttributeError):
+    pass
+
+ctk.set_appearance_mode({
+    "☀ Claro": "light",
+    "🌙 Escuro": "dark",
+    "💻 Seguir o sistema": "system"
+}.get(tema_salvo, "light"))
 
 # criar a janela
 janela = ctk.CTk()
@@ -14,6 +34,8 @@ janela = ctk.CTk()
 # configurar a janela
 janela.title("Sistema de Cadastro de Metas")
 janela.geometry("900x600")
+if configuracoes_salvas.get("abrir_maximizado", False):
+    janela.after(0, lambda: janela.state("zoomed"))
 
 # reservar uma coluna fixa para o menu e outra para o conteudo principal
 janela.grid_rowconfigure(0, weight=1)
@@ -33,7 +55,7 @@ frame_menu.grid_propagate(False)
 # criar frame princiapl
 frame_principal = ctk.CTkFrame(
     master=janela,
-    fg_color="#f5f5f5",
+    fg_color=("#F5F5F5", "#111827"),
     corner_radius=0
 )
 
@@ -132,7 +154,8 @@ botao_dashboard = ctk.CTkButton(
     frame_menu,
     text=" Dashboard",
     image=icone_dashboard,
-    **estilo_botao_menu
+    **estilo_botao_menu,
+    command=lambda: abrir_tela_dashboard(frame_principal)
 )
 botao_dashboard.place(x=15, y=285)
 
@@ -140,7 +163,8 @@ botao_relatorios = ctk.CTkButton(
     frame_menu,
     text="  Relatórios",
     image=icone_relatorios,
-    **estilo_botao_menu
+    **estilo_botao_menu,
+    command=lambda: abrir_tela_relatorios(frame_principal)
 )
 botao_relatorios.place(x=15, y=350)
 
@@ -148,7 +172,8 @@ botao_configuracoes = ctk.CTkButton(
     frame_menu,
     text="  Configurações",
     image=icone_configuracoes,
-    **estilo_botao_menu
+    **estilo_botao_menu,
+    command=lambda: abrir_tela_configuracoes(frame_principal)
 )
 botao_configuracoes.place(x=15, y=415)
 
@@ -156,7 +181,8 @@ botao_sair = ctk.CTkButton(
     frame_menu,
     text="  Sair",
     image=icone_sair,
-    **estilo_botao_menu
+    **estilo_botao_menu,
+    command=janela.destroy
 )
 botao_sair.place(x=15, rely=1, y=-70, anchor="sw")
 

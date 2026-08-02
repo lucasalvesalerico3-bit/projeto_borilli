@@ -140,9 +140,9 @@ def abrir_tela_funcionarios(frame_principal):
             master=frame_principal,
             height=75,
             corner_radius=10,
-            fg_color="#ffffff",
+            fg_color=("#FFFFFF", "#1F2937"),
             border_width=1,
-            border_color="#d1d5db"
+            border_color=("#D1D5DB", "#374151")
         )
 
         card_funcionario.pack(
@@ -155,7 +155,7 @@ def abrir_tela_funcionarios(frame_principal):
             master=card_funcionario,
             text=nome,
             font=("Segoe UI", 17, "bold"),
-            text_color="#1f2937"
+            text_color=("#1F2937", "#F9FAFB")
         )
 
         nome_funcionario.place(x=20, y=12)
@@ -164,7 +164,7 @@ def abrir_tela_funcionarios(frame_principal):
             master=card_funcionario,
             text=cargo,
             font=("Segoe UI", 14),
-            text_color="#6b7280"
+            text_color=("#6B7280", "#9CA3AF")
         )
 
         cargo_funcionario.place(x=20, y=42)
@@ -173,7 +173,7 @@ def abrir_tela_funcionarios(frame_principal):
             master=card_funcionario,
             text=f"ID: {funcionario_id}",
             font=("Segoe UI", 13),
-            text_color="#6b7280"
+            text_color=("#6B7280", "#9CA3AF")
         )
 
         id_funcionario.place(relx=0.97, y=25, anchor="e")
