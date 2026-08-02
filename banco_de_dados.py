@@ -1,5 +1,17 @@
-# importando o SQLite3
 import sqlite3
+from pathlib import Path
+
+PASTA_PROJETO = Path(__file__).resolve().parent
+CAMINHO_BANCO = PASTA_PROJETO / "metas.db"
+
+
+def conectar():
+    print(f"Banco utilizado: {CAMINHO_BANCO}")
+
+    conn = sqlite3.connect(CAMINHO_BANCO)
+    conn.execute("PRAGMA foreign_keys = ON")
+
+    return conn
 
 #criando a função para conectar ao banco de dados
 def conectar():
@@ -323,3 +335,4 @@ def relatorio_anual(ano):
         "porcentagem": porcentagem,
         "bateu_meta": realizado_total >= meta_total and meta_total > 0
     }
+criar_tabelas()
