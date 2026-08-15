@@ -25,8 +25,7 @@ def abrir_tela_configuracoes(frame_principal):
         "confirmar_exclusao": True,
         "abrir_maximizado": False,
         "atualizar_listas": True,
-        "mensagens_sucesso": True,
-        "nome_empresa": ""
+        "mensagens_sucesso": True
     }
 
     try:
@@ -90,16 +89,6 @@ def abrir_tela_configuracoes(frame_principal):
         if destino:
             copiar_banco(destino, "Backup criado com sucesso!")
 
-    def exportar_dados():
-        destino = filedialog.asksaveasfilename(
-            title="Exportar dados",
-            initialfile="metas_exportadas.db",
-            defaultextension=".db",
-            filetypes=[("Banco SQLite", "*.db"), ("Todos os arquivos", "*.*")]
-        )
-        if destino:
-            copiar_banco(destino, "Dados exportados com sucesso!")
-
     def substituir_banco(titulo, mensagem_confirmacao, mensagem_sucesso):
         origem = filedialog.askopenfilename(
             title=titulo,
@@ -143,13 +132,6 @@ def abrir_tela_configuracoes(frame_principal):
             "Selecionar backup",
             "A restauração substituirá os dados atuais. Deseja continuar?",
             "Backup restaurado com sucesso!"
-        )
-
-    def importar_dados():
-        substituir_banco(
-            "Selecionar banco para importação",
-            "A importação substituirá os dados atuais. Deseja continuar?",
-            "Dados importados com sucesso!"
         )
 
     pagina = ctk.CTkScrollableFrame(
@@ -276,74 +258,6 @@ def abrir_tela_configuracoes(frame_principal):
         if configuracoes.get(chave, False):
             opcao.select()
 
-    # Informações da empresa
-    card_empresa = ctk.CTkFrame(
-        master=conteudo,
-        corner_radius=14,
-        border_width=1,
-        border_color=borda,
-        fg_color=branco
-    )
-    card_empresa.grid(row=1, column=0, sticky="nsew", padx=6, pady=6)
-
-    ctk.CTkLabel(
-        master=card_empresa,
-        text="Informações da Empresa",
-        font=("Segoe UI", 18, "bold"),
-        text_color=texto,
-        anchor="w"
-    ).pack(fill="x", padx=20, pady=(18, 3))
-    ctk.CTkLabel(
-        master=card_empresa,
-        text="Dados utilizados na identificação do sistema.",
-        font=("Segoe UI", 12),
-        text_color=secundario,
-        anchor="w"
-    ).pack(fill="x", padx=20, pady=(0, 14))
-
-    ctk.CTkLabel(
-        master=card_empresa,
-        text="Nome da empresa",
-        font=("Segoe UI", 13, "bold"),
-        text_color=texto,
-        anchor="w"
-    ).pack(fill="x", padx=20, pady=(0, 6))
-    campo_empresa = ctk.CTkEntry(
-        master=card_empresa,
-        placeholder_text="Digite o nome da empresa",
-        height=40,
-        corner_radius=8
-    )
-    campo_empresa.pack(fill="x", padx=20, pady=(0, 14))
-    campo_empresa.insert(0, configuracoes.get("nome_empresa", ""))
-
-    area_logo = ctk.CTkFrame(
-        master=card_empresa,
-        height=95,
-        corner_radius=10,
-        border_width=1,
-        border_color=("#D1D5DB", "#4B5563"),
-        fg_color=("#F9FAFB", "#253044")
-    )
-    area_logo.pack(fill="x", padx=20, pady=(0, 12))
-    area_logo.pack_propagate(False)
-    ctk.CTkLabel(
-        master=area_logo,
-        text="LOGO\nPré-visualização",
-        font=("Segoe UI", 12, "bold"),
-        text_color="#9CA3AF"
-    ).pack(expand=True)
-
-    ctk.CTkButton(
-        master=card_empresa,
-        text="Selecionar logo",
-        height=38,
-        corner_radius=8,
-        fg_color=azul,
-        hover_color=azul_hover,
-        command=lambda: None
-    ).pack(fill="x", padx=20, pady=(0, 20))
-
     # Banco de dados
     card_banco = ctk.CTkFrame(
         master=conteudo,
@@ -352,7 +266,7 @@ def abrir_tela_configuracoes(frame_principal):
         border_color=borda,
         fg_color=branco
     )
-    card_banco.grid(row=1, column=1, sticky="nsew", padx=6, pady=6)
+    card_banco.grid(row=1, column=0, columnspan=2, sticky="nsew", padx=6, pady=6)
     card_banco.grid_columnconfigure((0, 1), weight=1)
 
     ctk.CTkLabel(
@@ -393,9 +307,7 @@ def abrir_tela_configuracoes(frame_principal):
 
     botoes_banco = (
         ("Criar Backup", criar_backup, 0, 0),
-        ("Restaurar Backup", restaurar_backup, 0, 1),
-        ("Exportar Dados", exportar_dados, 1, 0),
-        ("Importar Dados", importar_dados, 1, 1)
+        ("Restaurar Backup", restaurar_backup, 0, 1)
     )
     for rotulo, comando, linha, coluna in botoes_banco:
         ctk.CTkButton(
@@ -457,7 +369,6 @@ def abrir_tela_configuracoes(frame_principal):
     # Rodapé
     def salvar_preferencias():
         configuracoes["tema"] = menu_tema.get()
-        configuracoes["nome_empresa"] = campo_empresa.get().strip()
         for chave, switch in switches_preferencias.items():
             configuracoes[chave] = bool(switch.get())
 

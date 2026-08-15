@@ -80,10 +80,11 @@ def abrir_tela_funcionarios(frame_principal):
     titulo = ctk.CTkLabel(
         master=frame_principal,
         text="Funcionários",
-        font=("Arial", 28, "bold")
+        font=("Arial", 28, "bold"),
+        anchor="w"
     )
 
-    titulo.pack(pady=30)
+    titulo.pack(fill="x", padx=30, pady=30)
 
     frame_botoes = ctk.CTkFrame(
         master=frame_principal,

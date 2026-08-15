@@ -74,7 +74,7 @@ def abrir_tela_metas(frame_principal):
     card_formulario.pack(
         fill="x",
         padx=40,
-        pady=(0, 12)
+        pady=(0, 4)
     )
 
     # Faz as duas colunas crescerem igualmente
@@ -366,13 +366,13 @@ def abrir_tela_metas(frame_principal):
         columnspan=2,
         sticky="ew",
         padx=25,
-        pady=(0, 25)
+        pady=(0, 10)
     )
 
     # ÁREA DAS METAS CADASTRADAS
     card_listagem = ctk.CTkFrame(
         master=frame_principal,
-        height=380,
+        height=540,
         corner_radius=14,
         border_width=1,
         border_color=("#D1D5DB", "#374151"),
@@ -383,7 +383,7 @@ def abrir_tela_metas(frame_principal):
         fill="both",
         expand=True,
         padx=40,
-        pady=(0, 30)
+        pady=(0, 24)
     )
     card_listagem.pack_propagate(False)
 
@@ -391,12 +391,12 @@ def abrir_tela_metas(frame_principal):
         master=card_listagem,
         fg_color="transparent"
     )
-    cabecalho_listagem.pack(fill="x", padx=25, pady=(18, 10))
+    cabecalho_listagem.pack(fill="x", padx=30, pady=(16, 14))
 
     titulo_listagem = ctk.CTkLabel(
         master=cabecalho_listagem,
         text="Metas cadastradas",
-        font=("Segoe UI", 20, "bold"),
+        font=("Segoe UI", 22, "bold"),
         text_color=("#111827", "#F9FAFB")
     )
     titulo_listagem.pack(side="left")
@@ -424,8 +424,8 @@ def abrir_tela_metas(frame_principal):
     frame_metas.pack(
         fill="both",
         expand=True,
-        padx=25,
-        pady=(0, 18)
+        padx=18,
+        pady=(0, 24)
     )
 
     def rolar_metas(event):
@@ -475,31 +475,35 @@ def abrir_tela_metas(frame_principal):
                 border_color=("#E5E7EB", "#374151"),
                 fg_color=("#FFFFFF", "#253044")
             )
-            linha_meta.pack(fill="x", pady=5, padx=2)
+            linha_meta.pack(fill="x", pady=10, padx=8)
             linha_meta.grid_columnconfigure(0, weight=1)
+            linha_meta.grid_columnconfigure(1, minsize=210)
+            linha_meta.grid_rowconfigure(0, minsize=48)
+            linha_meta.grid_rowconfigure(1, minsize=58)
             ativar_scroll_mouse(linha_meta)
 
             nome_funcionario = ctk.CTkLabel(
                 master=linha_meta,
                 text=f"#{meta_id}  {funcionario}",
-                font=("Segoe UI", 14, "bold"),
+                font=("Segoe UI", 16, "bold"),
                 text_color=("#111827", "#F9FAFB"),
                 anchor="w"
             )
-            nome_funcionario.grid(row=0, column=0, sticky="ew", padx=14, pady=(10, 3))
+            nome_funcionario.grid(row=0, column=0, sticky="ew", padx=(22, 12), pady=(14, 4))
 
             data_da_meta = ctk.CTkLabel(
                 master=linha_meta,
                 text=data_meta,
                 font=("Segoe UI", 13),
-                text_color=("#6B7280", "#9CA3AF")
+                text_color=("#6B7280", "#9CA3AF"),
+                anchor="e"
             )
-            data_da_meta.grid(row=0, column=1, padx=14, pady=(10, 3))
+            data_da_meta.grid(row=0, column=1, sticky="ew", padx=(12, 22), pady=(14, 4))
 
             valores_meta = ctk.CTkLabel(
                 master=linha_meta,
                 text=f"Meta:  {valor_meta:g}     •     Realizado:  {realizado:g}",
-                font=("Segoe UI", 13, "bold"),
+                font=("Segoe UI", 14, "bold"),
                 text_color="#1F4FBF",
                 anchor="w"
             )
@@ -507,15 +511,15 @@ def abrir_tela_metas(frame_principal):
                 row=1,
                 column=0,
                 sticky="ew",
-                padx=14,
-                pady=(3, 10)
+                padx=(22, 12),
+                pady=(4, 14)
             )
 
             acoes_meta = ctk.CTkFrame(
                 master=linha_meta,
                 fg_color="transparent"
             )
-            acoes_meta.grid(row=1, column=1, padx=12, pady=(3, 10))
+            acoes_meta.grid(row=1, column=1, padx=(12, 22), pady=(4, 14))
 
             botao_editar = ctk.CTkButton(
                 master=acoes_meta,
