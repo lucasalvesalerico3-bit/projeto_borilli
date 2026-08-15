@@ -19,7 +19,9 @@ def abrir_tela_configuracoes(frame_principal):
     azul = "#1F4FBF"
     azul_hover = "#173B8F"
     caminho_banco = Path(__file__).resolve().parent.parent / "metas.db"
-    caminho_configuracoes = caminho_banco.with_name("configuracoes.json")
+    pasta_config = Path.home() / ".config" / "SistemaMetas"
+    pasta_config.mkdir(parents=True, exist_ok=True)
+    caminho_configuracoes = pasta_config / "configuracoes.json"
     configuracoes = {
         "tema": "☀ Claro",
         "confirmar_exclusao": True,

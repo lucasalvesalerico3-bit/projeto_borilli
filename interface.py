@@ -9,10 +9,15 @@ from telas.tela_funcionarios import abrir_tela_funcionarios
 from telas.tela_metas import abrir_tela_metas
 from telas.tela_relatorios import abrir_tela_relatorios
 
+BASE_DIR = Path(__file__).resolve().parent
+PASTA_IMAGENS = BASE_DIR / "imagens"
+
 ctk.set_widget_scaling(2.0)
 ctk.set_window_scaling(2.0)
 
-caminho_configuracoes = Path(__file__).resolve().parent / "configuracoes.json"
+PASTA_CONFIG = Path.home() / ".config" / "SistemaMetas"
+PASTA_CONFIG.mkdir(parents=True, exist_ok=True)
+caminho_configuracoes = PASTA_CONFIG / "configuracoes.json"
 tema_salvo = "☀ Claro"
 configuracoes_salvas = {}
 try:

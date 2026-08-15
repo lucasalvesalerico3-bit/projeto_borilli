@@ -1,10 +1,16 @@
-import sqlite3
 from pathlib import Path
+import sqlite3
 
-PASTA_PROJETO = Path(__file__).resolve().parent
-CAMINHO_BANCO = PASTA_PROJETO / "metas.db"
+PASTA_DADOS = Path.home() / ".local" / "share" / "SistemaMetas"
+PASTA_DADOS.mkdir(parents=True, exist_ok=True)
+
+CAMINHO_BANCO = PASTA_DADOS / "metas.db"
 
 
+def conectar():
+    conn = sqlite3.connect(CAMINHO_BANCO)
+    conn.execute("PRAGMA foreign_keys = ON")
+    return conn
 def conectar():
     print(f"Banco utilizado: {CAMINHO_BANCO}")
 
@@ -12,10 +18,6 @@ def conectar():
     conn.execute("PRAGMA foreign_keys = ON")
 
     return conn
-
-#criando a função para conectar ao banco de dados
-def conectar():
-    return sqlite3.connect("metas.db")
 
 def criar_tabelas():
     conn = conectar()
